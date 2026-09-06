@@ -1,0 +1,331 @@
+/* =========================================================
+   BIRTHDAY SITE — SHARED STYLES
+   This one file controls the look of every page.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@600&display=swap');
+
+:root {
+  /* ---- COLOR PALETTE — deep magenta-plum / raspberry pink ---- */
+  --night-deep:  #4a0e2e;   /* darkest background — deep magenta-plum */
+  --night:       #7a1f4b;   /* main background — vivid raspberry */
+  --paper:       #fff0f5;   /* letter paper — pale pink blush */
+  --blush:       #ff5c8a;   /* wax seal + main accent — hot pink */
+  --gold:        #ffb6c1;   /* stars, washi tape — light pink */
+  --lavender:    #e28fb4;   /* secondary text on dark — orchid pink */
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Quicksand', sans-serif;
+  --font-note: 'Caveat', cursive;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--paper);
+}
+
+/* ---- NIGHT SKY BACKGROUND (pages 1 & 2) ---- */
+.sky {
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(ellipse at top, var(--night) 0%, var(--night-deep) 70%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* small scattered stars, purely decorative */
+.sky::before,
+.sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, var(--gold) 0%, transparent 60%),
+    radial-gradient(2px 2px at 70% 20%, var(--lavender) 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 85% 60%, var(--gold) 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 40% 80%, var(--lavender) 0%, transparent 60%),
+    radial-gradient(2px 2px at 10% 70%, var(--gold) 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 55% 45%, var(--paper) 0%, transparent 60%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.sky::after { transform: translate(30px, 40px); opacity: 0.35; }
+
+/* ---- HEADLINE TEXT ---- */
+.headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  text-align: center;
+  color: var(--paper);
+  margin: 0 0 8px;
+  z-index: 1;
+}
+.subline {
+  font-family: var(--font-body);
+  color: var(--lavender);
+  text-align: center;
+  margin: 0 0 48px;
+  font-size: 1.05rem;
+  z-index: 1;
+}
+
+/* =========================================================
+   PAGE 1 — ENVELOPE + WAX SEAL
+   ========================================================= */
+.envelope {
+  position: relative;
+  width: min(320px, 80vw);
+  aspect-ratio: 3 / 2;
+  z-index: 1;
+}
+.envelope-body {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+.envelope-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  background: #f8dbe4;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 6px 6px 0 0;
+  transform-origin: top center;
+  transition: transform 0.4s ease;
+}
+.envelope:hover .envelope-flap { transform: scaleY(0.96) translateY(-2px); }
+
+.wax-seal {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8fab, var(--blush) 60%, #c9315c 100%);
+  color: var(--night-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+.wax-seal:hover {
+  transform: translate(-50%, -3px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+/* ---- TWO-ENVELOPE CHOICE ROW (page: open-now.html) ---- */
+.envelope-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  justify-content: center;
+  z-index: 1;
+}
+.envelope-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.envelope-choice .envelope {
+  width: min(230px, 65vw);
+}
+.envelope-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--lavender);
+  font-size: 0.95rem;
+  margin: 0;
+  text-align: center;
+}
+
+/* =========================================================
+   PAGE 2 — CATEGORY GRID OF LITTLE ENVELOPES
+   ========================================================= */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 28px;
+  width: min(900px, 92vw);
+  z-index: 1;
+}
+
+.card {
+  position: relative;
+  text-decoration: none;
+  background: var(--paper);
+  color: var(--night-deep);
+  border-radius: 8px;
+  padding: 28px 20px 22px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+/* gentle scattered tilt, alternating — feels like tossed letters */
+.card:nth-child(5n+1) { transform: rotate(-2.5deg); }
+.card:nth-child(5n+2) { transform: rotate(1.5deg); }
+.card:nth-child(5n+3) { transform: rotate(-1deg); }
+.card:nth-child(5n+4) { transform: rotate(2deg); }
+.card:nth-child(5n+5) { transform: rotate(-1.8deg); }
+
+.card:hover {
+  transform: translateY(-6px) rotate(0deg) scale(1.03);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+.card::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 26px;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, var(--blush) 50%, transparent 50%),
+              linear-gradient(-135deg, var(--blush) 50%, transparent 50%);
+  background-position: left, right;
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+}
+
+.back-link {
+  margin-top: 44px;
+  color: var(--lavender);
+  font-family: var(--font-body);
+  text-decoration: none;
+  font-size: 0.95rem;
+  z-index: 1;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.back-link:hover { border-color: var(--lavender); }
+
+/* =========================================================
+   PAGE 3 — THE LETTER / MESSAGE PAGE
+   ========================================================= */
+.letter-wrap {
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(ellipse at top, var(--night) 0%, var(--night-deep) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.letter {
+  position: relative;
+  background: var(--paper);
+  color: #6b1440;
+  max-width: 620px;
+  width: 100%;
+  padding: 50px 40px 40px;
+  border-radius: 4px;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.5);
+}
+
+/* little "washi tape" strip at the top, like a pinned note */
+.letter::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 110px;
+  height: 34px;
+  background: var(--gold);
+  opacity: 0.85;
+}
+
+.letter h1 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--night);
+  font-size: 1.8rem;
+  margin-top: 0;
+}
+
+.letter p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.letter .signoff {
+  font-family: var(--font-note);
+  font-size: 1.6rem;
+  color: var(--blush);
+  margin-top: 28px;
+}
+
+/* numbered or bulleted lists inside a letter, e.g. <ol class="letter-list"> */
+.letter .letter-list {
+  margin: 0 0 20px;
+  padding-left: 1.4em;
+}
+.letter .letter-list li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.letter .letter-list li::marker {
+  font-weight: 700;
+  color: var(--blush);
+}
+
+/* ---- ONE PHOTO ----
+   A single framed photo, centered. Full image always shows —
+   no cropping, whatever the photo's shape. */
+.single-photo-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+}
+.single-photo {
+  background: #fff;
+  padding: 12px 12px 30px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  max-width: 280px;
+  width: 100%;
+}
+.single-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.letter .back-link { color: var(--lavender); }
+.letter .back-link:hover { border-color: var(--lavender); }
+
+/* ---- respect reduced-motion preference ---- */
+@media (prefers-reduced-motion: reduce) {
+  .envelope-flap, .card, .wax-seal { transition: none; }
+}
+
+/* ---- small screens ---- */
+@media (max-width: 480px) {
+  .letter { padding: 40px 24px 32px; }
+  .single-photo { max-width: 220px; }
+}
